@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
 author: "Alicia Campbell"
-description: "My final project"
+description: "Language and Religious Identity in Jerusalem"
 output:
   distill::distill_article:
     self_contained: false
