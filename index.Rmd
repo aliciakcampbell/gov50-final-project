@@ -11,4 +11,5 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to religion and politics, specifically in the context of the Middle East
+I am interested in exploring data related to religion, language, and politics, specifically in the context of Jerusalem. I'm curious about examining the relationship between religious identity and language and about how religious communities in Jerusalem conduct their religious services in different languages. For example, in the Christian context, the liturgical language may vary among different denominations, with some using Greek, Latin, or Aramaic alongside modern languages like Arabic or Hebrew. I might study this by analyzing data on the ethnic, cultural, and linguistic background of different religious groups or institutions in Jerusalem. 
+
