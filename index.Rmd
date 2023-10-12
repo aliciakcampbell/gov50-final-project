@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
 author: "Alicia Campbell"
-description: "Language and Religious Identity in Jerusalem"
+description: "Measuring the Relationship between Party Religiousity and Female Membership in Lebanon"
 output:
   distill::distill_article:
     self_contained: false
@@ -11,5 +11,4 @@ output:
 
 ## Project thoughts
 
-I am interested in exploring data related to religion, language, and politics, specifically in the context of Jerusalem. I'm curious about examining the relationship between religious identity and language and about how religious communities in Jerusalem conduct their religious services in different languages. For example, in the Christian context, the liturgical language may vary among different denominations, with some using Greek, Latin, or Aramaic alongside modern languages like Arabic or Hebrew. I might study this by analyzing data on the ethnic, cultural, and linguistic background of different religious groups or institutions in Jerusalem. 
-
+I am interested in using the data set "Party Variation in Religiosity and Womens Leadership, Lebanon Dataset" to measure the relationship between party religiosity and share of women in party membership (perc) in Lebanon. Based on the results, I will examine the extent that party religiosity is associated with female membership, or lack thereof.
