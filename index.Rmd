@@ -16,14 +16,12 @@ I am interested in using the data set "Party Variation in Religiosity and Womens
 
 ## Project Proposal (Milestone Two)
 
-Research Question: Does party religiosity impact female party membership in Lebanon? 
+Research Question: Does party religiosity impact female party membership in Lebanon? How do other variables such as year of party origin play a role in level of religiosity and share of female membership ?
 
-Drawing on the “Party Variation in Religiosity and Women's Leadership, Lebanon Dataset," I aim to examine the extent to which religiosity of key political parties in Lebanon impacts the share of female membership in said party. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. My sample includes responses regarding religion and female membership from 18 different political parties in Lebanon of different levels of religiosity. My explanatory variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).Tthe full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome variable is the share of female members in a given political party, represented as a percent.  For example, if the share of a female membership is 15, it would indicate that 15% of party members are female. According to the dataset summary, this data was collected “in person and via one-on-one interviews with party administrators, officials, and elites.” If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis. 
+Drawing on the “Party Variation in Religiosity and Women's Leadership, Lebanon Dataset," I aim to examine the extent to which the religiosity of key political parties in Lebanon impacts the share of female membership in said party. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented, than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. My sample includes responses regarding religion and female membership from 18 different political parties in Lebanon of different levels of religiosity. My explanatory variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).The full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome variable is the share of female members in a given political party, represented as a percent.  For example, if the share of a female membership is 15, it would indicate that 15% of party members are female. According to the dataset summary, this data was collected “in person and via one-on-one interviews with party administrators, officials, and elites.” If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis. 
 
 
 Plotting the relationship between female membership and religiosity (F_MEM and SECLRSM)
-
-
 ```{r}
 library(tidyverse)
 library(ggplot2)
@@ -41,7 +39,7 @@ fem_membership_mean <- women_religion %>%
 
 fem_membership_mean
 
-
+#configuring x axis labels
 xlabels <- c("Areligious and secular",
   "Confessional but civil secularism",
   "Tolerant religiosity",
@@ -67,20 +65,58 @@ rel_fem_plot <- ggplot(fem_membership_mean, mapping = aes(x = SECLRSM, y = fem_a
 
 rel_fem_plot
 ```
+
+
+```{r}
+yr_fem_religion <- lm(F_MEM ~ SECLRSM, data = women_religion)
+summary(yr_fem_religion)
+```
+INTERPRETATION: 
+The intercept has no practical meaning here since religiosity is never set to 0. The scale of religiosity only ranges from 1 - 5.
+
+The coefficient or slope for SECLRSM is -3.634. This means that for a one-unit increase in the level of religiosity, the predicted value of F_MEM is expected to decrease by 3.634 units, holding other variables constant.
+
+However, the p-value for SECLRSM is 0.1234, which is greater than the conventional significance level of 0.05. Therefore, we do not have enough evidence to conclude that the relationship between SECLRSM and F_MEM is statistically significant.
+
+
+
+Running a regression to examine the effect of year of party origin on share of female membership
 ```{r}
 #single variable regression, year of origin on female membership
 fem_membership_year_regression <- lm(F_MEM ~ YRORGN, data = women_religion)
 
+summary(fem_membership_year_regression)
 ```
+INTERPRETATION: 
+
+The coefficient or slope for YRORGN is 0.31426. This means that for each one-year increase in the year of party origin, the predicted value of F_MEM is expected to increase by 0.31426 units, holding other variables constant.
+
+The intercept, though it might not have a practical interpretation, is statistically significant.
+The coefficient for YRORGN is statistically significant, indicating that there is a significant relationship between the year of party origin and the share of female membership (F_MEM).
+The positive sign of the coefficient suggests that, on average, as the year of party origin increases, the share of female membership is expected to increase.
+The model explains approximately 47.29% of the variability in the share of female membership, based on the R-squared value.
+The F-statistic is significant, indicating that the model is statistically significant as a whole.
+Overall, the results suggest that the year of party origin is a statistically significant predictor of the share of female membership, and the model provides a good fit to the data.
 
 
+Running a regression to examine the effects of year of party origin AND level of religiosity on share female party membership
 ```{r}
 #multivariable regression, year of origin AND level of religiosity on female membership
 
 yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)
+summary(yr_fem_religion)
 
 ```
 
+INTERPRETATION: 
+
+Intercept ((Intercept)): The intercept is the estimated value of F_MEM when both YRORGN and SECLRSM are zero. In this context, it might not have a practical interpretation.
+YRORGN: The coefficient for YRORGN is 0.28860. This means that, holding other variables constant, for each one-year increase in the year of party origin, the predicted value of F_MEM is expected to increase by 0.28860 units.
+SECLRSM: The coefficient for SECLRSM is -1.80412. This means that, holding other variables constant, for a one-unit increase in the level of religiosity (SECLRSM), the predicted value of F_MEM is expected to decrease by 1.80412 units.
+
+
+
+Visualizing the relationship between religiosity and female membership
 ```{r}
 #visualization of relationship between level of party religiusity and female party membership
 plot_religiosity <- ggplot(women_religion, aes(x = SECLRSM, y = F_MEM)) +
@@ -94,7 +130,7 @@ plot_religiosity <- ggplot(women_religion, aes(x = SECLRSM, y = F_MEM)) +
 
 plot_religiosity
 ```
-
+Visualizing the relationship between year of party origin and female membership
 ```{r}
 #visualization of relationship between year of party origin and female party membership
 
@@ -109,7 +145,7 @@ plot_year <- ggplot(women_religion, aes(x = YRORGN, y = F_MEM)) +
 
 plot_year
 ```
-
+Visualizing the relationship between year of party origin and level of religiosity
 ```{r}
 plot_religiosity_year <- ggplot(women_religion, aes(x = YRORGN, y = SECLRSM)) +
   geom_point() +
