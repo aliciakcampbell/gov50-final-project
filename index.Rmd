@@ -21,11 +21,10 @@ Research Question: Does party religiosity impact female party membership in Leba
 Drawing on the “Party Variation in Religiosity and Women's Leadership, Lebanon Dataset," I aim to examine the extent to which religiosity of key political parties in Lebanon impacts the share of female membership in said party. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. My sample includes responses regarding religion and female membership from 18 different political parties in Lebanon of different levels of religiosity. My explanatory variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).Tthe full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome variable is the share of female members in a given political party, represented as a percent.  For example, if the share of a female membership is 15, it would indicate that 15% of party members are female. According to the dataset summary, this data was collected “in person and via one-on-one interviews with party administrators, officials, and elites.” If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis. 
 
 
-
-
 Plotting the relationship between female membership and religiosity (F_MEM and SECLRSM)
-```{r}
 
+
+```{r}
 library(tidyverse)
 library(ggplot2)
 library(scales)
@@ -34,55 +33,101 @@ library(scales)
 library(haven)
 women_religion <- read_sav("Party Variation in Religiosity and Womens Leadership Lebanon Dataset.SAV")
 
-#assigning appropriate names to the 1-5 ranking system for degrees of religiosity
-religiosity <- women_religion %>%
-  mutate(SECLRSM = case_when(SECLRSM == 1 ~ "Extremist religiosity", 
-          SECLRSM == 2 ~ "Conservative but not extremist religiosity",
-         SECLRSM == 3 ~ "Tolerant religiosity",
-         SECLRSM == 4 ~ "Confessional but civil secularism",
-         SECLRSM == 5 ~ "Areligious and secular"
-         ))
-
 #grouping by level of religiosity and calculating the mean female party membership for each group
-fem_membership_mean <- religiosity %>%
+fem_membership_mean <- women_religion %>%
   group_by(SECLRSM) %>%
  summarize(
    fem_avg = mean(F_MEM, na.rm = TRUE))
 
 fem_membership_mean
 
-```
 
-```{r}
-#organizing x-axis labels
-
-women_religion$SECLRSM <- factor(women_religion$SECLRSM, levels = c(
-  "Areligious and secular",
+xlabels <- c("Areligious and secular",
   "Confessional but civil secularism",
   "Tolerant religiosity",
   "Conservative but not extremist religiosity",
-  "Extremist religiosity"
-))
-```
+  "Extremist religiosity")
+
+wrapped_labels <- str_wrap(xlabels, width = 19)
 
 
-
-```{r}
 #producing bar plot showing the relationship between level of party religiosity and share of female membership 
 
-plot <- ggplot(fem_membership_mean, mapping = aes(x = SECLRSM, y = fem_avg)) + geom_col(fill = "steelblue") +
+rel_fem_plot <- ggplot(fem_membership_mean, mapping = aes(x = SECLRSM, y = fem_avg)) + geom_col(fill = "steelblue") +
   labs(
     title = "Religiosity and Female Party Membership",
     x = "Level of Religiosity",
     y = "Share of Female Membership in Party"
   ) + 
-     scale_y_continuous(labels = scales::percent_format(scale = 1)) +
-   scale_x_discrete(labels = label_wrap(20))
+   scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  scale_x_continuous(
+    breaks = as.numeric(fem_membership_mean$SECLRSM),
+    labels =  wrapped_labels)
 
-plot
 
-
+rel_fem_plot
+```
+```{r}
+#single variable regression, year of origin on female membership
+fem_membership_year_regression <- lm(F_MEM ~ YRORGN, data = women_religion)
 
 ```
+
+
+```{r}
+#multivariable regression, year of origin AND level of religiosity on female membership
+
+yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)
+
+```
+
+```{r}
+#visualization of relationship between level of party religiusity and female party membership
+plot_religiosity <- ggplot(women_religion, aes(x = SECLRSM, y = F_MEM)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Relationship between Religiosity and Female Membership",
+    x = "Religiosity",
+    y = "Female Membership"
+  )
+
+plot_religiosity
+```
+
+```{r}
+#visualization of relationship between year of party origin and female party membership
+
+plot_year <- ggplot(women_religion, aes(x = YRORGN, y = F_MEM)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(
+    title = "Relationship between Year of Origin and Female Membership",
+    x = "Year of Origin",
+    y = "Female Membership"
+  )
+
+plot_year
+```
+
+```{r}
+plot_religiosity_year <- ggplot(women_religion, aes(x = YRORGN, y = SECLRSM)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(
+    title = "Relationship between Religiosity and Year of Origin",
+    x = "Year of Origin",
+    y = "Religiosity"
+  )
+
+plot_religiosity_year
+```
+
+
+
+
+
+
+
 
 
