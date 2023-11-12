@@ -65,19 +65,20 @@ rel_fem_plot <- ggplot(fem_membership_mean, mapping = aes(x = SECLRSM, y = fem_a
 
 rel_fem_plot
 ```
+The above bar plot shows the relationship between religiosity (on a scale from 1 - 5, 1 being the least religious) and share of female party membership (reflected as a percentage). From this graph we can see that the share of female membership generally decreases as religiosity increases. The greatest level of female membership is seen at level 2, dubbed "confessional but civil secularism" and the lowest is at level 5, dubbed "extremist religiosity." However, the exact extent of the relationship between these two variables is not entirely clear without further analysis.
 
 
+
+running regression on effect of religiosity on share of female party membership
 ```{r}
 yr_fem_religion <- lm(F_MEM ~ SECLRSM, data = women_religion)
-summary(yr_fem_religion)
+yr_fem_religion
 ```
-INTERPRETATION: 
-The intercept has no practical meaning here since religiosity is never set to 0. The scale of religiosity only ranges from 1 - 5.
+Interpretation of regression: Religiosity on share of female party membership:
 
-The coefficient or slope for SECLRSM is -3.634. This means that for a one-unit increase in the level of religiosity, the predicted value of F_MEM is expected to decrease by 3.634 units, holding other variables constant.
+In this case, the intercept of 39.808 has no practical meaning since religiosity is will never be 0. The scale of religiosity only ranges from 1 - 5.
 
-However, the p-value for SECLRSM is 0.1234, which is greater than the conventional significance level of 0.05. Therefore, we do not have enough evidence to conclude that the relationship between SECLRSM and F_MEM is statistically significant.
-
+The SECLRSM coefficient (religiosity) is -3.634. This means that for a one level increase in religiosity, the share of female party membership is expected to decrease by 3.634 percentage points. Thus, it seems that on average, as religiosity increases, female party membership decreases by 3.634 percentage points.
 
 
 Running a regression to examine the effect of year of party origin on share of female membership
@@ -85,18 +86,11 @@ Running a regression to examine the effect of year of party origin on share of f
 #single variable regression, year of origin on female membership
 fem_membership_year_regression <- lm(F_MEM ~ YRORGN, data = women_religion)
 
-summary(fem_membership_year_regression)
+fem_membership_year_regression
 ```
-INTERPRETATION: 
+Interpretation of regression: Year of party origin on share of female party membership:
 
-The coefficient or slope for YRORGN is 0.31426. This means that for each one-year increase in the year of party origin, the predicted value of F_MEM is expected to increase by 0.31426 units, holding other variables constant.
-
-The intercept, though it might not have a practical interpretation, is statistically significant.
-The coefficient for YRORGN is statistically significant, indicating that there is a significant relationship between the year of party origin and the share of female membership (F_MEM).
-The positive sign of the coefficient suggests that, on average, as the year of party origin increases, the share of female membership is expected to increase.
-The model explains approximately 47.29% of the variability in the share of female membership, based on the R-squared value.
-The F-statistic is significant, indicating that the model is statistically significant as a whole.
-Overall, the results suggest that the year of party origin is a statistically significant predictor of the share of female membership, and the model provides a good fit to the data.
+While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is 0.3143. This means that for each one-year increase in the year of party origin (as in one year closer to present time), the share of female party membership is expected to increase by 0.3143 percentage points. This suggests that on average, each year closer to present time that a party was established, the share of female membership will increase 0.3143 percentage points.
 
 
 Running a regression to examine the effects of year of party origin AND level of religiosity on share female party membership
@@ -104,15 +98,17 @@ Running a regression to examine the effects of year of party origin AND level of
 #multivariable regression, year of origin AND level of religiosity on female membership
 
 yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)
-summary(yr_fem_religion)
+yr_fem_religion
 
 ```
 
-INTERPRETATION: 
+Interpretation of regression: Religiosity AND year of party origin on share of female party membership:
 
-Intercept ((Intercept)): The intercept is the estimated value of F_MEM when both YRORGN and SECLRSM are zero. In this context, it might not have a practical interpretation.
-YRORGN: The coefficient for YRORGN is 0.28860. This means that, holding other variables constant, for each one-year increase in the year of party origin, the predicted value of F_MEM is expected to increase by 0.28860 units.
-SECLRSM: The coefficient for SECLRSM is -1.80412. This means that, holding other variables constant, for a one-unit increase in the level of religiosity (SECLRSM), the predicted value of F_MEM is expected to decrease by 1.80412 units.
+The intercept has no practical meaning in this case since neither level of religiosity nor year of origin will ever be equal to 0. 
+
+The coefficient of YRORGN is 0.2886. This means that, for each year closer to present time that a party was established, the the share of female party membership is expected to increase  0.2886 percentage points.
+
+The coefficient for SECLRSM is -1.8041. This means that for each level increase in religiosity (SECLRSM), the share of female membership expected to decrease by 1.8041 percentage points.
 
 
 
