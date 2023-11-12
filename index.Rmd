@@ -5,7 +5,7 @@ description: "Measuring the Relationship between Party Religiousity and Female M
 output:
   distill::distill_article:
     self_contained: false
----
+--- 
 
 
 
@@ -36,7 +36,7 @@ fem_membership_mean <- women_religion %>%
  summarize(
    fem_avg = mean(F_MEM, na.rm = TRUE))
 
-fem_membership_mean
+fem_membership_mean 
 
 #configuring x axis labels
 xlabels <- c("Areligious and secular",
