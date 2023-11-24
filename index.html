@@ -1538,7 +1538,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
 <span>   fem_avg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>F_MEM</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>fem_membership_mean</span></span></code></pre>
+<span><span class='va'>fem_membership_mean</span> </span></code></pre>
 </div>
 <pre><code># A tibble: 5 × 2
   SECLRSM                                        fem_avg
@@ -1580,16 +1580,37 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The above bar plot shows the relationship between religiosity (on a scale from 1 - 5, 1 being the least religious) and share of female party membership (reflected as a percentage). From this graph we can see that the share of female membership generally decreases as religiosity increases. The greatest level of female membership is seen at level 2, dubbed “confessional but civil secularism” and the lowest is at level 5, dubbed “extremist religiosity.” However, the exact extent of the relationship between these two variables is not entirely clear without further analysis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span></span>
-<span><span class='va'>yr_fem_religion</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, est<span class='op'>=</span><span class='va'>estimate</span>, se<span class='op'>=</span><span class='va'>std.error</span>, pval<span class='op'>=</span><span class='va'>p.value</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>yr_fem_religion</span>, digits<span class='op'>=</span><span class='fl'>3</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Variable"</span>, <span class='st'>"Coefficient Estimate"</span>, <span class='st'>"Standard Error"</span>, <span class='st'>"P-Value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code>
-Call:
-lm(formula = F_MEM ~ SECLRSM, data = women_religion)
-
-Coefficients:
-(Intercept)      SECLRSM  
-     39.808       -3.634  </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Coefficient Estimate</th>
+<th style="text-align: right;">Standard Error</th>
+<th style="text-align: right;">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">39.808</td>
+<td style="text-align: right;">8.492</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SECLRSM</td>
+<td style="text-align: right;">-3.634</td>
+<td style="text-align: right;">2.234</td>
+<td style="text-align: right;">0.123</td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>Interpretation of regression: Religiosity on share of female party membership:</p>
 <p>In this case, the intercept of 39.808 has no practical meaning since religiosity is will never be 0. The scale of religiosity only ranges from 1 - 5.</p>
@@ -1597,17 +1618,37 @@ Coefficients:
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#single variable regression, year of origin on female membership</span></span>
-<span><span class='va'>fem_membership_year_regression</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>YRORGN</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span></span>
+<span><span class='va'>fem_membership_year_regression</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>YRORGN</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span><span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, est<span class='op'>=</span><span class='va'>estimate</span>, se<span class='op'>=</span><span class='va'>std.error</span>, pval<span class='op'>=</span><span class='va'>p.value</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>fem_membership_year_regression</span></span></code></pre>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>fem_membership_year_regression</span>, digits<span class='op'>=</span><span class='fl'>3</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Variable"</span>, <span class='st'>"Coefficient Estimate"</span>, <span class='st'>"Standard Error"</span>, <span class='st'>"P-Value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code>
-Call:
-lm(formula = F_MEM ~ YRORGN, data = women_religion)
-
-Coefficients:
-(Intercept)       YRORGN  
-  -593.1953       0.3143  </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Coefficient Estimate</th>
+<th style="text-align: right;">Standard Error</th>
+<th style="text-align: right;">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-593.195</td>
+<td style="text-align: right;">163.676</td>
+<td style="text-align: right;">0.002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">YRORGN</td>
+<td style="text-align: right;">0.314</td>
+<td style="text-align: right;">0.083</td>
+<td style="text-align: right;">0.002</td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>Interpretation of regression: Year of party origin on share of female party membership:</p>
 <p>While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is 0.3143. This means that for each one-year increase in the year of party origin (as in one year closer to present time), the share of female party membership is expected to increase by 0.3143 percentage points. This suggests that on average, each year closer to present time that a party was established, the share of female membership will increase 0.3143 percentage points.</p>
@@ -1615,16 +1656,43 @@ Coefficients:
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#multivariable regression, year of origin AND level of religiosity on female membership</span></span>
 <span></span>
-<span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>YRORGN</span> <span class='op'>+</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span></span>
-<span><span class='va'>yr_fem_religion</span></span></code></pre>
+<span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>YRORGN</span> <span class='op'>+</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span><span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, est<span class='op'>=</span><span class='va'>estimate</span>, se<span class='op'>=</span><span class='va'>std.error</span>, pval<span class='op'>=</span><span class='va'>p.value</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>yr_fem_religion</span>, digits<span class='op'>=</span><span class='fl'>3</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Variable"</span>, <span class='st'>"Coefficient Estimate"</span>, <span class='st'>"Standard Error"</span>, <span class='st'>"P-Value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code>
-Call:
-lm(formula = F_MEM ~ YRORGN + SECLRSM, data = women_religion)
-
-Coefficients:
-(Intercept)       YRORGN      SECLRSM  
-  -536.1504       0.2886      -1.8041  </code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Coefficient Estimate</th>
+<th style="text-align: right;">Standard Error</th>
+<th style="text-align: right;">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-536.150</td>
+<td style="text-align: right;">173.861</td>
+<td style="text-align: right;">0.008</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">YRORGN</td>
+<td style="text-align: right;">0.289</td>
+<td style="text-align: right;">0.087</td>
+<td style="text-align: right;">0.005</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SECLRSM</td>
+<td style="text-align: right;">-1.804</td>
+<td style="text-align: right;">1.838</td>
+<td style="text-align: right;">0.342</td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>Interpretation of regression: Religiosity AND year of party origin on share of female party membership:</p>
 <p>The intercept has no practical meaning in this case since neither level of religiosity nor year of origin will ever be equal to 0.</p>
@@ -1678,7 +1746,7 @@ Coefficients:
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

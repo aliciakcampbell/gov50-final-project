@@ -20,6 +20,21 @@ Research Question: Does party religiosity impact female party membership in Leba
 
 Drawing on the “Party Variation in Religiosity and Women's Leadership, Lebanon Dataset," I aim to examine the extent to which the religiosity of key political parties in Lebanon impacts the share of female membership in said party. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented, than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. My sample includes responses regarding religion and female membership from 18 different political parties in Lebanon of different levels of religiosity. My explanatory variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).The full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome variable is the share of female members in a given political party, represented as a percent.  For example, if the share of a female membership is 15, it would indicate that 15% of party members are female. According to the dataset summary, this data was collected “in person and via one-on-one interviews with party administrators, officials, and elites.” If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis. 
 
+##Introduction
+
+In this project I explore the question: What is the relationship between party religiosity and share of female party membership in Lebanon? As an increasing amount women enter into politics in Lebanon, examining this relationship offers interesting insight into how religion, gender, and politics interact in the Levant. I will also examine party year of origin as another variable that may impact level of party religiosity and share of female party membership. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented, than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. This study will offer insight into how religion may impact the political landscape and gender dynamics in Lebanon and may prompt further research into what specific religious components and features of a party spur or deter female political membership. 
+
+##Data and Research Method
+
+In this study I draw on the “Party Variation in Religiosity and Women's Leadership, Lebanon" dataset, which is sourced from the Association of Religion Data Archives. The data was collected between 2008 and 2010 and includes data on 18 different political parties in Lebanon. This data was collected by way of in-person via one-on-one interviews with party officials, leaders, and administrators.
+
+My explanatory or independent variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).The full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome or dependentvariable is the share of female members in a given political party, represented as a percent. For example, if the share of a female membership is 15, it would indicate that 15% of party members are female. 
+
+If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis.
+
+This study is a cross-sectional design. Although the collection period ranged from 2008 to 2010, the collection does not measure change in any variables and the data is used to measure a single point in time. 
+
+
 
 ```{r}
 library(tidyverse)
@@ -68,9 +83,16 @@ The above bar plot shows the relationship between religiosity (on a scale from 1
 
 
 
+##Results 
+
 ```{r}
-yr_fem_religion <- lm(F_MEM ~ SECLRSM, data = women_religion)
-yr_fem_religion
+yr_fem_religion <- lm(F_MEM ~ SECLRSM, data = women_religion) %>%
+  broom::tidy()|>
+  select(term, est=estimate, se=std.error, pval=p.value)
+
+
+knitr::kable(yr_fem_religion, digits=3, col.names = c("Variable", "Coefficient Estimate", "Standard Error", "P-Value"))
+
 ```
 Interpretation of regression: Religiosity on share of female party membership:
 
@@ -82,9 +104,14 @@ The SECLRSM coefficient (religiosity) is -3.634. This means that for a one level
 
 ```{r}
 #single variable regression, year of origin on female membership
-fem_membership_year_regression <- lm(F_MEM ~ YRORGN, data = women_religion)
+fem_membership_year_regression <- lm(F_MEM ~ YRORGN, data = women_religion) %>%
+broom::tidy()%>%
+  select(term, est=estimate, se=std.error, pval=p.value)
 
-fem_membership_year_regression
+
+knitr::kable(fem_membership_year_regression, digits=3, col.names = c("Variable", "Coefficient Estimate", "Standard Error", "P-Value"))
+
+
 ```
 Interpretation of regression: Year of party origin on share of female party membership:
 
@@ -95,8 +122,13 @@ While the intercept is not a relevant measure here since the year will never be 
 ```{r}
 #multivariable regression, year of origin AND level of religiosity on female membership
 
-yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)
-yr_fem_religion
+yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)%>%
+broom::tidy()%>%
+  select(term, est=estimate, se=std.error, pval=p.value)
+
+
+knitr::kable(yr_fem_religion, digits=3, col.names = c("Variable", "Coefficient Estimate", "Standard Error", "P-Value"))
+
 
 ```
 
@@ -151,7 +183,7 @@ plot_religiosity_year
 ```
 
 
-
+##Conclusion
 
 
 
