@@ -1517,11 +1517,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts-milestone-one">Project thoughts (Milestone One)</h2>
-<p>I am interested in using the data set “Party Variation in Religiosity and Womens Leadership, Lebanon Dataset” to measure the relationship between party religiosity and share of women in party membership (perc) in Lebanon. Based on the results, I will examine the extent that party religiosity is associated with female membership, or lack thereof.</p>
-<h2 id="project-proposal-milestone-two">Project Proposal (Milestone Two)</h2>
-<p>Research Question: Does party religiosity impact female party membership in Lebanon? How do other variables such as year of party origin play a role in level of religiosity and share of female membership ?</p>
-<p>Drawing on the “Party Variation in Religiosity and Women’s Leadership, Lebanon Dataset,” I aim to examine the extent to which the religiosity of key political parties in Lebanon impacts the share of female membership in said party. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented, than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. My sample includes responses regarding religion and female membership from 18 different political parties in Lebanon of different levels of religiosity. My explanatory variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).The full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome variable is the share of female members in a given political party, represented as a percent. For example, if the share of a female membership is 15, it would indicate that 15% of party members are female. According to the dataset summary, this data was collected “in person and via one-on-one interviews with party administrators, officials, and elites.” If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis.</p>
+<h2 id="introduction">Introduction</h2>
+<p>In this project I explore the question: What is the relationship between party religiosity and share of female party membership in Lebanon? As an increasing amount women enter into politics in Lebanon, examining this relationship offers interesting insight into how religion, gender, and politics interact in the Levant. I will also examine party year of origin as another variable that may impact level of party religiosity and share of female party membership. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented, than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. This study will offer insight into how religion may impact the political landscape and gender dynamics in Lebanon and may prompt further research into what specific religious components and features of a party spur or deter female political membership.</p>
+<h2 id="data-and-research-method">Data and Research Method</h2>
+<p>In this study I draw on the “Party Variation in Religiosity and Women’s Leadership, Lebanon” dataset, which is sourced from the Association of Religion Data Archives. The data was collected between 2008 and 2010 and includes data on 18 different political parties in Lebanon. This data was collected by way of in-person via one-on-one interviews with party officials, leaders, and administrators.</p>
+<p>My explanatory or independent variable is level of party religiosity, with possible answers ranging from “Areligious and Secular” (coded as 5) to “Extremely Religious” (coded as 1).The full ranking of choices are as follows: 1) Extremely Religious, 2) Conservative but not extremist religiosity 3) tolerant religiosity 4) confessional but civil secularism 5) A religious and Secular. My outcome or dependentvariable is the share of female members in a given political party, represented as a percent. For example, if the share of a female membership is 15, it would indicate that 15% of party members are female.</p>
+<p>If I were to observe lower shares of female party membership for parties that are coded as having high levels of religiosity (likely coded as a 1 or 2), this would support my hypothesis. Conversely, if I were to observe the opposite effect, that female membership is higher for parties that exhibit higher levels of religiosity, this would provide evidence against my hypothesis.</p>
+<p>This study is a cross-sectional design. Although the collection period ranged from 2008 to 2010, the collection does not measure change in any variables and the data is used to measure a single point in time.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
@@ -1578,9 +1580,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
 <p>The above bar plot shows the relationship between religiosity (on a scale from 1 - 5, 1 being the least religious) and share of female party membership (reflected as a percentage). From this graph we can see that the share of female membership generally decreases as religiosity increases. The greatest level of female membership is seen at level 2, dubbed “confessional but civil secularism” and the lowest is at level 5, dubbed “extremist religiosity.” However, the exact extent of the relationship between these two variables is not entirely clear without further analysis.</p>
+<h2 id="results">Results</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#regression, femMem and religiosity</span></span>
+<span></span>
+<span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span>  <span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, est<span class='op'>=</span><span class='va'>estimate</span>, se<span class='op'>=</span><span class='va'>std.error</span>, pval<span class='op'>=</span><span class='va'>p.value</span><span class='op'>)</span></span>
 <span></span>
@@ -1612,9 +1617,25 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
-<p>Interpretation of regression: Religiosity on share of female party membership:</p>
+<p>Interpretation of regression, Religiosity on share of female party membership:</p>
 <p>In this case, the intercept of 39.808 has no practical meaning since religiosity is will never be 0. The scale of religiosity only ranges from 1 - 5.</p>
-<p>The SECLRSM coefficient (religiosity) is -3.634. This means that for a one level increase in religiosity, the share of female party membership is expected to decrease by 3.634 percentage points. Thus, it seems that on average, as religiosity increases, female party membership decreases by 3.634 percentage points.</p>
+<p>The SECLRSM coefficient (religiosity) is -3.634. This means that for a one level increase in religiosity, the share of female party membership is expected to decrease by 3.634 percentage points. Thus, it seems that on average, as religiosity increases, female party membership decreases by 3.634 percentage points. However, because the p-value (0.123) is greater than .05, it appears that the relationship between female membership and party religiosity is not statistically significant. Thus, we cannot conclude any sort of causal relationship, as there are many other variables that may be impacting the relationship between the two variables, such as party size, evolving party charters, social norms, and more.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#visualization of relationship between level of party religiusity and female party membership</span></span>
+<span><span class='va'>plot_religiosity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>women_religion</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>SECLRSM</span>, y <span class='op'>=</span> <span class='va'>F_MEM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Relationship between Religiosity and Female Membership"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Religiosity"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Female Membership"</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>plot_religiosity</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#single variable regression, year of origin on female membership</span></span>
@@ -1651,7 +1672,75 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </table>
 </div>
 <p>Interpretation of regression: Year of party origin on share of female party membership:</p>
-<p>While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is 0.3143. This means that for each one-year increase in the year of party origin (as in one year closer to present time), the share of female party membership is expected to increase by 0.3143 percentage points. This suggests that on average, each year closer to present time that a party was established, the share of female membership will increase 0.3143 percentage points.</p>
+<p>While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is 0.3143. This means that for each one-year increase in the year of party origin (as in one year closer to present time), the share of female party membership is expected to increase by 0.3143 percentage points. This suggests that on average, each year closer to present time that a party was established, the share of female membership will increase 0.3143 percentage points. Unlike the previous relationship between female membership and party religiosity, here, because the p-value (0.002) is less than .05, it appears that the relationship between female membership and year of origin is in fact statistically significant, meaning that the relationship we see between year of origin and share of female party membership is likely not due to random chance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#visualization of relationship between year of party origin and female party membership</span></span>
+<span></span>
+<span><span class='va'>plot_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>women_religion</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>YRORGN</span>, y <span class='op'>=</span> <span class='va'>F_MEM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Relationship between Year of Origin and Female Membership"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Year of Origin"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Female Membership"</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>plot_year</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#single variable regression, year of origin on religiosity</span></span>
+<span><span class='va'>fem_membership_year_regression</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>SECLRSM</span> <span class='op'>~</span> <span class='va'>YRORGN</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span><span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, est<span class='op'>=</span><span class='va'>estimate</span>, se<span class='op'>=</span><span class='va'>std.error</span>, pval<span class='op'>=</span><span class='va'>p.value</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>fem_membership_year_regression</span>, digits<span class='op'>=</span><span class='fl'>3</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Variable"</span>, <span class='st'>"Coefficient Estimate"</span>, <span class='st'>"Standard Error"</span>, <span class='st'>"P-Value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Coefficient Estimate</th>
+<th style="text-align: right;">Standard Error</th>
+<th style="text-align: right;">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">31.619</td>
+<td style="text-align: right;">22.290</td>
+<td style="text-align: right;">0.175</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">YRORGN</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">0.226</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is -0.014. This means that for each one-year increase in the year of party origin (as in one year closer to present time), the level of party religiosity is expected to decrease by 0.014 of a level. This suggests that on average, each year closer to present time that a party was established, the level of party religiosity will decrease by 0.014 of a level. However, since the p-value (0.226) is greater than .05, it appears that the relationship between year of origin and religiosity is not statistically significant, meaning that the relationship we see between year of origin and share of female party membership is likely due to random chance.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot_religiosity_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>women_religion</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>YRORGN</span>, y <span class='op'>=</span> <span class='va'>SECLRSM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Relationship between Religiosity and Year of Origin"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Year of Origin"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Religiosity"</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>plot_religiosity_year</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#multivariable regression, year of origin AND level of religiosity on female membership</span></span>
@@ -1659,7 +1748,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>yr_fem_religion</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>F_MEM</span> <span class='op'>~</span> <span class='va'>YRORGN</span> <span class='op'>+</span> <span class='va'>SECLRSM</span>, data <span class='op'>=</span> <span class='va'>women_religion</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span><span class='fu'>broom</span><span class='fu'>::</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>term</span>, est<span class='op'>=</span><span class='va'>estimate</span>, se<span class='op'>=</span><span class='va'>std.error</span>, pval<span class='op'>=</span><span class='va'>p.value</span><span class='op'>)</span></span>
-<span></span>
 <span></span>
 <span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>yr_fem_religion</span>, digits<span class='op'>=</span><span class='fl'>3</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Variable"</span>, <span class='st'>"Coefficient Estimate"</span>, <span class='st'>"Standard Error"</span>, <span class='st'>"P-Value"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
@@ -1698,54 +1786,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The intercept has no practical meaning in this case since neither level of religiosity nor year of origin will ever be equal to 0.</p>
 <p>The coefficient of YRORGN is 0.2886. This means that, for each year closer to present time that a party was established, the the share of female party membership is expected to increase 0.2886 percentage points.</p>
 <p>The coefficient for SECLRSM is -1.8041. This means that for each level increase in religiosity (SECLRSM), the share of female membership expected to decrease by 1.8041 percentage points.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#visualization of relationship between level of party religiusity and female party membership</span></span>
-<span><span class='va'>plot_religiosity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>women_religion</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>SECLRSM</span>, y <span class='op'>=</span> <span class='va'>F_MEM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
-<span>    title <span class='op'>=</span> <span class='st'>"Relationship between Religiosity and Female Membership"</span>,</span>
-<span>    x <span class='op'>=</span> <span class='st'>"Religiosity"</span>,</span>
-<span>    y <span class='op'>=</span> <span class='st'>"Female Membership"</span></span>
-<span>  <span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>plot_religiosity</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#visualization of relationship between year of party origin and female party membership</span></span>
-<span></span>
-<span><span class='va'>plot_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>women_religion</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>YRORGN</span>, y <span class='op'>=</span> <span class='va'>F_MEM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
-<span>    title <span class='op'>=</span> <span class='st'>"Relationship between Year of Origin and Female Membership"</span>,</span>
-<span>    x <span class='op'>=</span> <span class='st'>"Year of Origin"</span>,</span>
-<span>    y <span class='op'>=</span> <span class='st'>"Female Membership"</span></span>
-<span>  <span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>plot_year</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>plot_religiosity_year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>women_religion</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>YRORGN</span>, y <span class='op'>=</span> <span class='va'>SECLRSM</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
-<span>    title <span class='op'>=</span> <span class='st'>"Relationship between Religiosity and Year of Origin"</span>,</span>
-<span>    x <span class='op'>=</span> <span class='st'>"Year of Origin"</span>,</span>
-<span>    y <span class='op'>=</span> <span class='st'>"Religiosity"</span></span>
-<span>  <span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>plot_religiosity_year</span></span></code></pre>
-</div>
-<p><img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" /></p>
-</div>
+<p>However, it is important to note that because SECLRSM (level of religiosity) was shown to not have a statistically significant effect on share of female party membership in Lebanon, this multi-variable model is not the best for demonstrating the relationship between these three variables.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>While the regression shows a negative relationship between the two key variables, level of religiosity and share of female party membership, meaning that as religiosity increases, share of female party membership tended to decrease, given that the p-value exceeds 0.05, these results are not statistically significant. Thus, we cannot conclude any causal relationship between level of religiosity and female party membership. However, examining year of party origin, I found that there was a positive statistically significant relationship between the year a party was established and share of female party membership, indicating that the more recently a party was a established, the higher its female membership share tends to be. However, because there are likely other confounders left unaccounted for, I cannot conclude any (causal) relationship beyond correlation. These results may reflect changing attitudes and social norms around women in Lebanon with regards to their role in politics, or the public sphere in general. This study certainly prompts further research into changing social norms around women in Lebanon and other confounding variables that may be influencing these results.</p>
+<p>There are several key limitations to this study. First, the study only includes 18 parties when there are over 90 active parties in Lebanon. With more data, this type of analysis may yield different results that more accurately reflect the relationship between the variables at hand. Additionally, since this data was collected via interviews with party officials and administrators, there may be unaccounted for bias since the data was largely self-reported.</p>
+<p>This study could be improved by further exploring possible confounding variables that contribute to the significant relationship between year of party origin and share of female party membership. As of now, the temporal dynamics and the changes in female membership over time are still left largely unexplored. Additionally, this study could draw on data from other sources to corroborate the data (such as true level of religiosity and female membership share) used in this study in order to combat the aforementioned response bias in the collection process.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
