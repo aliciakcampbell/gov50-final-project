@@ -12,6 +12,11 @@ output:
 
 In this project I explore the question: What is the relationship between party religiosity and share of female party membership in Lebanon? As an increasing amount women enter into politics in Lebanon, examining this relationship offers interesting insight into how religion, gender, and politics interact in the Levant. I will also examine party year of origin as another variable that may impact level of party religiosity and share of female party membership. I hypothesize that the share of female membership decreases as party religiosity increases. As is typical, I expect more religious parties to take more conservative stances with regards to the role of women in the political realm, which is often associated with an adherence to gender roles wherein women are seen as better suited to carry out more domestic-oriented, than public-facing tasks. Conversely, I hypothesize that less religious parties in Lebanon will exhibit higher shares of female membership, given the more liberal and open ideology often associated with non-religious groups. This study will offer insight into how religion may impact the political landscape and gender dynamics in Lebanon and may prompt further research into what specific religious components and features of a party spur or deter female political membership. 
 
+Hypothesis: The share of female membership decreases as party religiosity increases.
+
+Null Hypothesis: There is no relationship between share of female membership and level of party religiosity. 
+
+
 ## Data and Research Method
 
 In this study I draw on the “Party Variation in Religiosity and Women's Leadership, Lebanon" dataset, which is sourced from the Association of Religion Data Archives. The data was collected between 2008 and 2010 and includes data on 18 different political parties in Lebanon. This data was collected by way of in-person via one-on-one interviews with party officials, leaders, and administrators.
@@ -34,19 +39,35 @@ library(haven)
 women_religion <- read_sav("Party Variation in Religiosity and Womens Leadership Lebanon Dataset.SAV")
 
 #grouping by level of religiosity and calculating the mean female party membership for each group
+
+women_religion$SECLRSM
+
+women_religion$SECLRSM2<-NA
+women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==1,5,women_religion$SECLRSM2)
+women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==2,4,women_religion$SECLRSM2)
+women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==3,3,women_religion$SECLRSM2)
+women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==4,2,women_religion$SECLRSM2)
+women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==5,1,women_religion$SECLRSM2)
+print(table(women_religion$SECLRSM2))
+print(table(women_religion$SECLRSM))
+
+women_religion$SECLRSM<-women_religion$SECLRSM2
+
 fem_membership_mean <- women_religion %>%
   group_by(SECLRSM) %>%
  summarize(
    fem_avg = mean(F_MEM, na.rm = TRUE))
 
-fem_membership_mean 
+fem_membership_mean$SECLRSM
+fem_membership_mean$fem_avg
+#changing order of variables so that it ranges from secular to extremely religious
+
+
 
 #configuring x axis labels
-xlabels <- c("Areligious and secular",
-  "Confessional but civil secularism",
-  "Tolerant religiosity",
-  "Conservative but not extremist religiosity",
-  "Extremist religiosity")
+
+
+xlabels <- c("Areligious and secular", "Confessional but civil secularism", "Tolerant religiosity", "Conservative but not extremist religiosity", "Extremist religiosity")
 
 wrapped_labels <- str_wrap(xlabels, width = 19)
 
@@ -62,14 +83,15 @@ rel_fem_plot <- ggplot(fem_membership_mean, mapping = aes(x = SECLRSM, y = fem_a
    scale_y_continuous(labels = scales::percent_format(scale = 1)) +
   scale_x_continuous(
     breaks = as.numeric(fem_membership_mean$SECLRSM),
-    labels =  wrapped_labels)
+    labels = wrapped_labels)
 
 
 rel_fem_plot
 ```
-The above bar plot shows the relationship between religiosity (on a scale from 1 - 5, 1 being the least religious) and share of female party membership (reflected as a percentage). From this graph we can see that the share of female membership generally decreases as religiosity increases. The greatest level of female membership is seen at level 2, dubbed "confessional but civil secularism" and the lowest is at level 5, dubbed "extremist religiosity." However, the exact extent of the relationship between these two variables is not entirely clear without further analysis.
+The above bar plot shows the relationship between religiosity (on a scale from 1 - 5, 1 being the most religious) and share of female party membership (reflected as a percentage). From this graph, there is no clear evidence to support my hypothesis that as level of religiosity increases, share of female party decreases. The greatest level of female membership is seen at level 2, dubbed "conservative but not extremist religiosity" and the lowest is at level 5, dubbed "Areligious and secular." However, the exact extent of the relationship between these two variables is not entirely clear without further analysis.
 
 
+CHANGE
 
 ## Results 
 
@@ -88,7 +110,7 @@ Interpretation of regression, Religiosity on share of female party membership:
 
 In this case, the intercept of 39.808 has no practical meaning since religiosity is will never be 0. The scale of religiosity only ranges from 1 - 5.
 
-The SECLRSM coefficient (religiosity) is -3.634. This means that for a one level increase in religiosity, the share of female party membership is expected to decrease by 3.634 percentage points. Thus, it seems that on average, as religiosity increases, female party membership decreases by 3.634 percentage points. However, because the p-value (0.123) is greater than .05, it appears that the relationship between female membership and party religiosity is not statistically significant. Thus, we cannot conclude any sort of causal relationship, as there are many other variables that may be impacting the relationship between the two variables, such as party size, evolving party charters, social norms, and more.
+The SECLRSM coefficient (religiosity) is 3.634. This means that for a one level increase in religiosity, the share of female party membership is expected to increase by 3.634 percentage points. Thus, it seems that on average, as religiosity increases, female party membership increases by 3.634 percentage points. However, because the p-value (0.123) is greater than .05, it appears that the relationship between female membership and party religiosity is not statistically significant. Thus, we cannot reject the null hypothesis that there is no relationship between level of religiosity and share of female party membership. Thus, we cannot conclude any sort of causal relationship, as there are many other variables that may be impacting the relationship between the two variables, such as party size, evolving party charters, social norms, and more.
 
 ```{r}
 #visualization of relationship between level of party religiusity and female party membership
@@ -141,34 +163,6 @@ plot_year
 
 
 ```{r}
-#single variable regression, year of origin on religiosity
-fem_membership_year_regression <- lm(SECLRSM ~ YRORGN, data = women_religion) %>%
-broom::tidy()%>%
-  select(term, est=estimate, se=std.error, pval=p.value)
-
-
-knitr::kable(fem_membership_year_regression, digits=3, col.names = c("Variable", "Coefficient Estimate", "Standard Error", "P-Value"))
-```
-While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is -0.014. This means that for each one-year increase in the year of party origin (as in one year closer to present time), the level of party religiosity is expected to decrease by 0.014 of a level. This suggests that on average, each year closer to present time that a party was established, the level of party religiosity will decrease by 0.014 of a level. However, since the p-value (0.226) is greater than .05, it appears that the relationship between   year of origin and religiosity is not statistically significant, meaning that the relationship we see between year of origin and share of female party membership is likely due to random chance.
-
-
-
-```{r}
-plot_religiosity_year <- ggplot(women_religion, aes(x = YRORGN, y = SECLRSM)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +
-  labs(
-    title = "Relationship between Religiosity and Year of Origin",
-    x = "Year of Origin",
-    y = "Religiosity"
-  )
-
-plot_religiosity_year
-```
-
-
-
-```{r}
 #multivariable regression, year of origin AND level of religiosity on female membership
 
 yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)%>%
@@ -188,9 +182,9 @@ The intercept has no practical meaning in this case since neither level of relig
 
 The coefficient of YRORGN is 0.2886. This means that, for each year closer to present time that a party was established, the the share of female party membership is expected to increase  0.2886 percentage points.
 
-The coefficient for SECLRSM is -1.8041. This means that for each level increase in religiosity (SECLRSM), the share of female membership expected to decrease by 1.8041 percentage points.
+The coefficient for SECLRSM is 1.8041. This means that for each level increase in religiosity (SECLRSM), the share of female membership expected to increase by 1.8041 percentage points, while controlling for year of origin.
 
-However, it is important to note that because SECLRSM (level of religiosity) was shown to not have a statistically significant effect on share of female party membership in Lebanon, this multi-variable model is not the best for demonstrating the relationship between these three variables. 
+Even when controlling for year of origin, there is still no statistically significant relationship between level of religiosity and share of female party membership. 
 
 
 
@@ -202,3 +196,6 @@ While the regression shows a negative relationship between the two key variables
 There are several key limitations to this study. First, the study only includes 18 parties when there are over 90 active parties in Lebanon. With more data, this type of analysis may yield different results that more accurately reflect the relationship between the variables at hand. Additionally, since this data was collected via interviews with party officials and administrators, there may be unaccounted for bias since the data was largely self-reported. 
 
 This study could be improved by further exploring possible confounding variables that contribute to the significant relationship between year of party origin and share of female party membership. As of now, the temporal dynamics and the changes in female membership over time are still left largely unexplored. Additionally, this study could draw on data from other sources to corroborate the data (such as true level of religiosity and female membership share) used in this study in order to combat the aforementioned response bias in the collection process.  
+
+- marital status 
+- education 
