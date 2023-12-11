@@ -180,11 +180,20 @@ The coefficient of YRORGN is 0.2886. This means that, for each year closer to pr
 The coefficient for SECLRSM is 1.8041. This means that for each level increase in religiosity (SECLRSM), the share of female membership expected to increase by 1.8041 percentage points, while controlling for year of origin. However, the p-value is 0.342 which is greater than 0.05, meaning that even while controlling for year of party origin, there is still no statistically significant relationship between level of religiosity and share of female party membership. Thus, we still cannot reject the null hypothesis that there is no relationship between level of party religiosity and share of female party membership. 
 
 
+```{r, echo = FALSE}
+#Controlling for all other variables
+yr_fem_religion <- lm(F_MEM ~ SECLRSM + YRORGN + SEAT_PMT + DEM + I_QUOTA + LEFTIST + DECSN + MEMCIVIL + MEMSECPR + CIVILCON + F_NOMCPL + F_NOMPMT + F_LEAD + PLUR + WINGS + DEMOCRAC, data = women_religion)%>%
+broom::tidy()%>%
+  select(term, est=estimate, se=std.error, pval=p.value)
+
+knitr::kable(yr_fem_religion, digits=3, col.names = c("Variable", "Coefficient Estimate", "Standard Error", "P-Value"))
+
+```
 
 
 ## Conclusion
 
-While the regression shows a positive relationship between level of religiosity and share of female party membership, meaning that as religiosity increases, share of female party membership tended to increase as well, given that the p-value exceeds 0.05 (even when controlling for the year of party origin), these results are not statistically significant. Thus, I cannot reject the null hypothesis that there is no significant relationship between level of party religiosity and share of female party membership. Furthermore, I cannot conclude any causal relationship between level of religiosity and female party membership nor find any evidence to support my original hypothesis that as level of religiosity increases, share of party membership will tend to decrease. 
+While the regression shows a positive relationship between level of religiosity and share of female party membership, meaning that as religiosity increases, share of female party membership tended to increase as well, given that the p-value exceeds 0.05 (even when controlling for the year of party origin), these results are not statistically significant. Thus, I cannot reject the null hypothesis that there is no significant relationship between level of party religiosity and share of female party membership. Furthermore, I cannot conclude any causal relationship between level of religiosity and female party membership nor find any evidence to support my original hypothesis that as level of religiosity increases, share of party membership will tend to decrease. This is found to be true even when controlling for all other variables in the data set as possible confounders. 
 
 However, when examining year of party origin as a secondary, potentially confounding variable on religiosity, I found that there was a positive statistically significant relationship between the year a party was established and share of female party membership, indicating that the more recently a party was a established, the higher its female membership share tends to be. However, because there are likely other confounders left unaccounted for (and not included in this dataset) such as party size, education level of party leadership, internal party structures and more, I cannot conclude any (causal) relationship beyond correlation. These results may reflect changing attitudes and social norms around women in Lebanon with regards to their role in politics, or the public sphere in general. 
 

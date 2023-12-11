@@ -1630,8 +1630,124 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The intercept has no practical meaning in this case since neither level of religiosity nor year of origin will ever be equal to 0.</p>
 <p>The coefficient of YRORGN is 0.2886. This means that, for each year closer to present time that a party was established, the the share of female party membership is expected to increase 0.2886 percentage points.</p>
 <p>The coefficient for SECLRSM is 1.8041. This means that for each level increase in religiosity (SECLRSM), the share of female membership expected to increase by 1.8041 percentage points, while controlling for year of origin. However, the p-value is 0.342 which is greater than 0.05, meaning that even while controlling for year of party origin, there is still no statistically significant relationship between level of religiosity and share of female party membership. Thus, we still cannot reject the null hypothesis that there is no relationship between level of party religiosity and share of female party membership.</p>
+<div class="layout-chunk" data-layout="l-body">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Coefficient Estimate</th>
+<th style="text-align: right;">Standard Error</th>
+<th style="text-align: right;">P-Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">89.556</td>
+<td style="text-align: right;">535.515</td>
+<td style="text-align: right;">0.883</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SECLRSM</td>
+<td style="text-align: right;">6.170</td>
+<td style="text-align: right;">6.550</td>
+<td style="text-align: right;">0.446</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">YRORGN</td>
+<td style="text-align: right;">-0.045</td>
+<td style="text-align: right;">0.274</td>
+<td style="text-align: right;">0.884</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SEAT_PMT</td>
+<td style="text-align: right;">1.082</td>
+<td style="text-align: right;">1.455</td>
+<td style="text-align: right;">0.535</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DEM</td>
+<td style="text-align: right;">-11.632</td>
+<td style="text-align: right;">17.163</td>
+<td style="text-align: right;">0.568</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">I_QUOTA</td>
+<td style="text-align: right;">-9.880</td>
+<td style="text-align: right;">12.123</td>
+<td style="text-align: right;">0.501</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LEFTIST</td>
+<td style="text-align: right;">20.612</td>
+<td style="text-align: right;">41.611</td>
+<td style="text-align: right;">0.669</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DECSN</td>
+<td style="text-align: right;">5.164</td>
+<td style="text-align: right;">12.841</td>
+<td style="text-align: right;">0.726</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MEMCIVIL</td>
+<td style="text-align: right;">1.535</td>
+<td style="text-align: right;">1.417</td>
+<td style="text-align: right;">0.392</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MEMSECPR</td>
+<td style="text-align: right;">1.053</td>
+<td style="text-align: right;">1.782</td>
+<td style="text-align: right;">0.615</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CIVILCON</td>
+<td style="text-align: right;">-24.507</td>
+<td style="text-align: right;">23.285</td>
+<td style="text-align: right;">0.403</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F_NOMCPL</td>
+<td style="text-align: right;">-2.782</td>
+<td style="text-align: right;">6.471</td>
+<td style="text-align: right;">0.709</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F_NOMPMT</td>
+<td style="text-align: right;">-0.985</td>
+<td style="text-align: right;">1.279</td>
+<td style="text-align: right;">0.522</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F_LEAD</td>
+<td style="text-align: right;">0.258</td>
+<td style="text-align: right;">0.825</td>
+<td style="text-align: right;">0.784</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PLUR</td>
+<td style="text-align: right;">-8.565</td>
+<td style="text-align: right;">16.035</td>
+<td style="text-align: right;">0.647</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">WINGS</td>
+<td style="text-align: right;">10.077</td>
+<td style="text-align: right;">13.135</td>
+<td style="text-align: right;">0.523</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DEMOCRAC</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="conclusion">Conclusion</h2>
-<p>While the regression shows a positive relationship between level of religiosity and share of female party membership, meaning that as religiosity increases, share of female party membership tended to increase as well, given that the p-value exceeds 0.05 (even when controlling for the year of party origin), these results are not statistically significant. Thus, I cannot reject the null hypothesis that there is no significant relationship between level of party religiosity and share of female party membership. Furthermore, I cannot conclude any causal relationship between level of religiosity and female party membership nor find any evidence to support my original hypothesis that as level of religiosity increases, share of party membership will tend to decrease.</p>
+<p>While the regression shows a positive relationship between level of religiosity and share of female party membership, meaning that as religiosity increases, share of female party membership tended to increase as well, given that the p-value exceeds 0.05 (even when controlling for the year of party origin), these results are not statistically significant. Thus, I cannot reject the null hypothesis that there is no significant relationship between level of party religiosity and share of female party membership. Furthermore, I cannot conclude any causal relationship between level of religiosity and female party membership nor find any evidence to support my original hypothesis that as level of religiosity increases, share of party membership will tend to decrease. This is found to be true even when controlling for all other variables in the data set as possible confounders.</p>
 <p>However, when examining year of party origin as a secondary, potentially confounding variable on religiosity, I found that there was a positive statistically significant relationship between the year a party was established and share of female party membership, indicating that the more recently a party was a established, the higher its female membership share tends to be. However, because there are likely other confounders left unaccounted for (and not included in this dataset) such as party size, education level of party leadership, internal party structures and more, I cannot conclude any (causal) relationship beyond correlation. These results may reflect changing attitudes and social norms around women in Lebanon with regards to their role in politics, or the public sphere in general.</p>
 <p>This study certainly prompts further research into changing social norms around women in Lebanon, their relationship to religion in the public sphere, and other confounding variables that may be influencing the lack of relationship between these two key variables that we might expect to exhibit a statistically significant relationship.</p>
 <p>There are several key limitations to this study. First, the study only includes 18 parties when there are over 90 active parties in Lebanon. With more data, this type of analysis may yield different results that more accurately reflect the relationship between the variables at hand. Additionally, since this data was collected via interviews with party officials and administrators, there may be unaccounted for bias since the data was largely self-reported.</p>
