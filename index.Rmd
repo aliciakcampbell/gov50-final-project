@@ -30,18 +30,16 @@ This study is a cross-sectional design. Although the collection period ranged fr
 
 
 
-```{r}
+```{r, echo=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(scales)
-
 #loading data
 library(haven)
 women_religion <- read_sav("Party Variation in Religiosity and Womens Leadership Lebanon Dataset.SAV")
 
 #grouping by level of religiosity and calculating the mean female party membership for each group
 
-women_religion$SECLRSM
 
 women_religion$SECLRSM2<-NA
 women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==1,5,women_religion$SECLRSM2)
@@ -49,8 +47,7 @@ women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==2,4,women_religion$SECLR
 women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==3,3,women_religion$SECLRSM2)
 women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==4,2,women_religion$SECLRSM2)
 women_religion$SECLRSM2<-ifelse(women_religion$SECLRSM==5,1,women_religion$SECLRSM2)
-print(table(women_religion$SECLRSM2))
-print(table(women_religion$SECLRSM))
+
 
 women_religion$SECLRSM<-women_religion$SECLRSM2
 
@@ -59,8 +56,6 @@ fem_membership_mean <- women_religion %>%
  summarize(
    fem_avg = mean(F_MEM, na.rm = TRUE))
 
-fem_membership_mean$SECLRSM
-fem_membership_mean$fem_avg
 #changing order of variables so that it ranges from secular to extremely religious
 
 
@@ -95,7 +90,7 @@ The above bar plot shows the relationship between religiosity (on a scale from 1
 
 ## Results 
 
-```{r}
+```{r, echo=FALSE}
 #regression, femMem and religiosity
 
 yr_fem_religion <- lm(F_MEM ~ SECLRSM, data = women_religion) %>%
@@ -112,7 +107,7 @@ In this case, the intercept of 39.808 has no practical meaning since religiosity
 
 The SECLRSM coefficient (religiosity) is 3.634. This means that for a one level increase in religiosity, the share of female party membership is expected to increase by 3.634 percentage points. Thus, it seems that on average, as religiosity increases, female party membership increases by 3.634 percentage points. However, because the p-value (0.123) is greater than .05, it appears that the relationship between female membership and party religiosity is not statistically significant. Thus, we cannot reject the null hypothesis that there is no relationship between level of religiosity and share of female party membership. Furthermore, we cannot conclude any sort of causal relationship, as there are many other confounding variables that may be impacting the relationship between the two variables, such as year of origin, party size, evolving party charters, social norms, and more.
 
-```{r}
+```{r, echo=FALSE}
 #visualization of relationship between level of party religiosity and female party membership
 plot_religiosity <- ggplot(women_religion, aes(x = SECLRSM, y = F_MEM)) +
   geom_point() +
@@ -127,7 +122,7 @@ plot_religiosity
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 #single variable regression, year of origin on female membership
 fem_membership_year_regression <- lm(F_MEM ~ YRORGN, data = women_religion) %>%
 broom::tidy()%>%
@@ -145,7 +140,7 @@ Interpretation of regression: Year of party origin on share of female party memb
 While the intercept is not a relevant measure here since the year will never be equal to 0, the coefficient of YRORGN (year of party origin) is 0.3143. This suggests that on average, each year closer to present time that a party was established, the share of female membership will increase 0.3143 percentage points. Unlike the previous relationship between female membership and party religiosity, here, because the p-value (0.002) is less than .05, it appears that the relationship between female membership and year of origin is in fact statistically significant, meaning that the relationship we see between year of origin and share of female party membership is likely not due to random chance. Now, I will test for statistical significance between share of female party membership and level of party religiosity while controlling for year of origin to see whether the significant relationship between year of origin and share of female party membership is a confounding variable in the context of level of religiosity and share of female membership. 
 
 
-```{r}
+```{r, echo=FALSE}
 #visualization of relationship between year of party origin and female party membership
 
 plot_year <- ggplot(women_religion, aes(x = YRORGN, y = F_MEM)) +
@@ -161,7 +156,7 @@ plot_year
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 #multivariable regression, year of origin AND level of religiosity on female membership
 
 yr_fem_religion <- lm(F_MEM ~ YRORGN + SECLRSM, data = women_religion)%>%
