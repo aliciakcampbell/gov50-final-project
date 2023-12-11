@@ -182,7 +182,7 @@ The coefficient for SECLRSM is 1.8041. This means that for each level increase i
 
 ```{r, echo = FALSE}
 #Controlling for all other variables
-yr_fem_religion <- lm(F_MEM ~ SECLRSM + YRORGN + SEAT_PMT + DEM + I_QUOTA + LEFTIST + DECSN + MEMCIVIL + MEMSECPR + CIVILCON + F_NOMCPL + F_NOMPMT + F_LEAD + PLUR + WINGS + DEMOCRAC, data = women_religion)%>%
+yr_fem_religion <- lm(F_MEM ~ SECLRSM + YRORGN + SEAT_PMT + DEM + I_QUOTA + LEFTIST + DECSN + MEMCIVIL + MEMSECPR + CIVILCON + F_NOMCPL + F_NOMPMT + F_LEAD + PLUR + WINGS, data = women_religion)%>%
 broom::tidy()%>%
   select(term, est=estimate, se=std.error, pval=p.value)
 
